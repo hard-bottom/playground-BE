@@ -1,15 +1,16 @@
 package com.hardbottom.playground.population
 
+import org.hibernate.annotations.CreationTimestamp
+import java.time.LocalDateTime
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
 data class Population(
-        @Id
-        @GeneratedValue
-        val id: Long,
-        val address1: String,
-        val address2: String,
-        val count: Int
+    @Id
+    val code: Long,
+    val time: Int,
+    val count: Int,
+    @CreationTimestamp
+    val create_time: LocalDateTime = LocalDateTime.now()
 )

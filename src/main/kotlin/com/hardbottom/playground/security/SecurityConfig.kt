@@ -27,12 +27,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
     override fun configure(http: HttpSecurity) {
-        http.anonymous()
-                .and()
-            .formLogin()
-                .successForwardUrl(LOGIN_SUCCESS_URL)
-                .and()
-            .authorizeRequests()
-                .anyRequest().authenticated()
+        http.authorizeRequests().antMatchers("/**").permitAll()
+//        http.anonymous()
+//                .and()
+//            .formLogin()
+//                .successForwardUrl(LOGIN_SUCCESS_URL)
+//                .and()
+//            .authorizeRequests()
+//                .anyRequest().authenticated()
     }
 }
