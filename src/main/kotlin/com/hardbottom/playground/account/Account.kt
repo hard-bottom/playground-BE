@@ -12,12 +12,12 @@ data class Account(
     @Id
     @GeneratedValue
     var id : Long? = null,
-    var email : String,
-    var password : String,
+    var email : String? = null,
+    var password : String? = null,
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    var roles : MutableSet<AccountRole>,
+    var roles : MutableSet<AccountRole> = mutableSetOf(),
 
     @CreationTimestamp
     var createDt : LocalDateTime = LocalDateTime.now()
