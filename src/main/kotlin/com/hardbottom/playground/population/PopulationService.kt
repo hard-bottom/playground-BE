@@ -1,15 +1,37 @@
 package com.hardbottom.playground.population
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 class PopulationService {
+    @Autowired
+    lateinit var populationRepository: PopulationRepository
 
-    fun getPopulations(): List<Population> {
-        val p1 = Population(11110,20210430,10000)
-        val p2 = Population(11140,20210440,1000)
-        val ret = mutableListOf<Population>(p1, p2)
+    fun getPopulations(): List<ReadPopulationDTO> {
+        val population = populationRepository.findAll()
+        return population.map {it.toReadPopulationDTO()}
+    }
 
-        return ret
+    fun getPopulationByDistrictCode(code: Int, time: Int): Int {
+        val population = populationRepository.findPopulationByCodeAndTime(code, time)
+        return population.count
+    }
+}
+
+@Service
+class LocationService {
+
+    @Autowired
+    lateinit var locationRepository: LocationRepository
+
+    fun getLocations(): List<ReadLocationDTO> {
+        val location = locationRepository.findAll()
+        return location.map {it.toReadLocationDTO()}
+    }
+
+    fun getDistrictCode(district: String): Int {
+        val location = locationRepository.findLocationByDistrict(district)
+        return location.code
     }
 }
