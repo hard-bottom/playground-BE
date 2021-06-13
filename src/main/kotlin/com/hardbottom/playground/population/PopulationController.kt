@@ -11,19 +11,24 @@ class PopulationController {
 
     @Autowired
     private lateinit var populationService: PopulationService
-    @Autowired
-    private lateinit var locationService: LocationService
 
-    @GetMapping("/populations")
-    private fun getPopulations(@RequestParam("city", required=false) city: String,
+    @GetMapping("/population", produces = ["application/json"])
+    private fun getPopulation(@RequestParam("city", required=false) city: String,
                                @RequestParam("district") district: String,
                                @RequestParam("time") time: String) : ResponseEntity<Any> {
-        val code = locationService.getDistrictCode(district)
-        val count = populationService.getPopulationByDistrictCode(code, Integer.parseInt(time))
-
+        println("district: $district")
+        println("time: $time")
         return ResponseEntity
                 .ok()
-                .body(count)
+                .body(populationService.getPopulation(district, Integer.parseInt(time)))
     }
 
+    @GetMapping("/populations", produces = ["application/json"])
+    private fun getPopulations(@RequestParam("city", required=false) city: String,
+                               @RequestParam("time") time: String) : ResponseEntity<Any> {
+        println("time: $time")
+        return ResponseEntity
+            .ok()
+            .body(populationService.getPopulations(Integer.parseInt(time)))
+    }
 }
