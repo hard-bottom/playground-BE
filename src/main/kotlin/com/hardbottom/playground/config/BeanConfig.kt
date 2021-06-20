@@ -35,12 +35,18 @@ class BeanConfig {
             private lateinit var accountService: AccountService
 
             override fun run(args: ApplicationArguments) {
-                val admin = Account(null,
-                                    "playground",
-                                    "playground",
-                                    mutableSetOf(AccountRole.ADMIN, AccountRole.USER)
-                )
-                accountService.saveAccount(admin)
+
+                val account = accountService.getAccount("playground");
+
+                if(account == null) {
+                    val admin = Account(
+                        null,
+                        "playground",
+                        "playground",
+                        mutableSetOf(AccountRole.ADMIN, AccountRole.USER)
+                    )
+                    accountService.saveAccount(admin)
+                }
             }
 
         }

@@ -21,6 +21,10 @@ class AccountService : UserDetailsService{
         return accountRepository.save(account)
     }
 
+    fun getAccount(email: String): Account? {
+        return accountRepository.findByEmail(email)
+    }
+
     override fun loadUserByUsername(username: String): UserDetails {
         return accountRepository.findByEmail(username)?.getAuthorities()
             ?: throw UsernameNotFoundException("$username cannot found")
