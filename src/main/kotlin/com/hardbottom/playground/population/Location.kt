@@ -11,9 +11,9 @@ data class Location(
     val id: Long? = null,
     val city: String,
     val district: String,
-    val code: Int
+    val code: String
 ) {
-    constructor() : this(null, "", "", 0)
+    constructor() : this(null, "", "", "")
 
     fun toReadLocationDTO(): ReadLocationDTO {
         return ReadLocationDTO(

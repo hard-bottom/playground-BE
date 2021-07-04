@@ -11,3 +11,5 @@ spring:
       ddl-auto: update
     generate-ddl: true
     show-sql: true
+openapi:
+  key: 6277564d6b746b6434385771656569

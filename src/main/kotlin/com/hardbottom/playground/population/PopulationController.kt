@@ -15,20 +15,22 @@ class PopulationController {
     @GetMapping("/population", produces = ["application/json"])
     private fun getPopulation(@RequestParam("city", required=false) city: String,
                                @RequestParam("district") district: String,
+                               @RequestParam("day") day: String,
                                @RequestParam("time") time: String) : ResponseEntity<Any> {
         println("district: $district")
         println("time: $time")
         return ResponseEntity
                 .ok()
-                .body(populationService.getPopulation(district, Integer.parseInt(time)))
+                .body(populationService.getPopulation(district, day, time))
     }
 
     @GetMapping("/populations", produces = ["application/json"])
     private fun getPopulations(@RequestParam("city", required=false) city: String,
+                               @RequestParam("day") day: String,
                                @RequestParam("time") time: String) : ResponseEntity<Any> {
         println("time: $time")
         return ResponseEntity
             .ok()
-            .body(populationService.getPopulations(Integer.parseInt(time)))
+            .body(populationService.getPopulations(day, time))
     }
 }

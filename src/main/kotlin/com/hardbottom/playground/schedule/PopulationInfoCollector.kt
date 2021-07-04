@@ -29,7 +29,7 @@ class PopulationInfoCollector {
             date
         );
 
-        println(result);
+//        println(result);
 
     }
 }

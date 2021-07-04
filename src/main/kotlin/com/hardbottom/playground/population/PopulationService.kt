@@ -10,12 +10,20 @@ class PopulationService {
     @Autowired
     lateinit var locationRepository: LocationRepository
 
-    fun getPopulations(time: Int): List<ReadPopulationDTO> {
-        return populationRepository.findAllByTime(time).map { it.toReadPopulationDTO() }
+    fun getPopulations(day: String, time: String): List<ReadPopulationDTO> {
+        return populationRepository.findAllByDayAndTime(day, time).map { it.toReadPopulationDTO() }
     }
 
-    fun getPopulation(district: String, time: Int): ReadPopulationDTO {
+    fun getPopulation(district: String, day: String, time: String): ReadPopulationDTO {
         val location = locationRepository.findLocationByDistrict(district).toReadLocationDTO()
-        return populationRepository.findPopulationByCodeAndTime(location.code, time).toReadPopulationDTO()
+        return populationRepository.findPopulationByCodeAndDayAndTime(location.code, day, time).toReadPopulationDTO()
+    }
+
+    fun insertPopulations(data: List<Population>) {
+        populationRepository.saveAll(data)
+    }
+
+    fun getLocations(): List<ReadLocationDTO> {
+        return locationRepository.findAllBy().map { it.toReadLocationDTO() }
     }
 }

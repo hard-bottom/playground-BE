@@ -9,17 +9,27 @@ import javax.persistence.Id
 @Entity
 data class Population(
     @Id
-    val code: Int? = null,
-    val time: Int,
-    val count: Int,
+    var id: Long? = null,
+    var code: String,
+    var day: String,
+    var time: String,
+    var count: Int,
     @CreationTimestamp
-    val create_time: LocalDateTime = LocalDateTime.now()
+    var create_time: LocalDateTime = LocalDateTime.now()
 ) {
-    constructor() : this(null, 0, 0)
+    constructor() : this(null, "", "", "", 0)
+    constructor(id: Long, code:String, day:String, time:String, count: Int): this() {
+        this.id = id
+        this.code = code
+        this.day = day
+        this.time = time
+        this.count = count
+    }
 
     fun toReadPopulationDTO(): ReadPopulationDTO {
         return ReadPopulationDTO(
             code = code,
+            day = day,
             time = time,
             count = count
         )
