@@ -34,4 +34,6 @@ data class Population(
             count = count
         )
     }
+
+    override fun toString() = "Population(id=$id, day=$day, count=$count, time=$time)"
 }
