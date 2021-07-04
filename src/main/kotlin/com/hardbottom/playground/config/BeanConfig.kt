@@ -1,6 +1,6 @@
 package com.hardbottom.playground.config
 
-import com.beust.klaxon.Parser
+//import com.beust.klaxon.Parser
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.hardbottom.playground.JachiAPI.JachiDataObject
 import com.hardbottom.playground.account.Account
@@ -85,7 +85,7 @@ class BeanConfig {
                 val yy = Integer.parseInt(curDate.split("-")[0])
                 val mm = Integer.parseInt(curDate.split("-")[1])
                 val dd = Integer.parseInt(curDate.split("-")[2])
-                val parser: Parser = Parser.default()
+                //val parser: Parser = Parser.default()
                 val cal = Calendar.getInstance()
                 cal.set(yy, mm - 1, dd)
                 cal.add(Calendar.DATE, -14)

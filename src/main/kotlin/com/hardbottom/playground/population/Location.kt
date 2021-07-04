@@ -18,7 +18,10 @@ data class Location(
     fun toReadLocationDTO(): ReadLocationDTO {
         return ReadLocationDTO(
             district = district,
-            code = code
+            code = code,
+            city = city
         )
     }
+
+    override fun toString() = "Location(id=$id, city=$city, district=$district, code=$code)"
 }
