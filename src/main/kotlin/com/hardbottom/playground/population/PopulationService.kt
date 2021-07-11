@@ -10,8 +10,17 @@ class PopulationService {
     @Autowired
     lateinit var locationRepository: LocationRepository
 
-    fun getPopulations(day: String, time: String): List<ReadPopulationDTO> {
-        return populationRepository.findAllByDayAndTime(day, time).map { it.toReadPopulationDTO() }
+    // TODO(jyeon.kim) : use model mapper?
+    private fun Population.toRetInfo() = RetInfoDTO(
+        district = "",
+        day = "$day",
+        time = "$time",
+        count = count,
+        city = ""
+    )
+
+    fun getPopulations(day: String, time: String): List<RetInfoDTO> {
+        return populationRepository.findAllByDayAndTime(day,time).map { it.toRetInfo() }
     }
 
     fun getPopulation(district: String, day: String, time: String): RetInfoDTO {
@@ -27,13 +36,4 @@ class PopulationService {
     fun getLocations(): List<ReadLocationDTO> {
         return locationRepository.findAllBy().map { it.toReadLocationDTO() }
     }
-
-    // TODO(jyeon.kim) : Test function for Setting of ReturnInfoDTO
-    /*fun TestConstValueOfPopulation(district: String, day: String, time: String): RetInfoDTO {
-        val location = locationRepository.findLocationByDistrict("종로구").toReadLocationDTO()
-        val population = populationRepository.findPopulationByCodeAndDayAndTime("11110", "SUNDAY", "00").toReadPopulationDTO()
-        println(location.toString())
-        println(population.toString())
-        return RetInfoDTO(location.district, population.day, population.time, population.count, location.city)
-    }*/
 }
