@@ -6,8 +6,10 @@ import com.hardbottom.playground.JachiAPI.JachiDataObject
 import com.hardbottom.playground.account.Account
 import com.hardbottom.playground.account.AccountRole
 import com.hardbottom.playground.account.AccountService
+import com.hardbottom.playground.population.LocationRepository
 import com.hardbottom.playground.population.Population
 import com.hardbottom.playground.population.PopulationService
+import com.hardbottom.playground.population.ReadLocationDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationArguments
@@ -23,6 +25,19 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+
+object LocationProperty {
+    private var locationSet: HashMap<String, Pair<String, String>> = hashMapOf()
+    fun setDistrictFromLocations(locations: List<ReadLocationDTO>) {
+        for (location in locations) {
+            locationSet[location.code] = Pair(location.district, location.city)
+        }
+    }
+
+    fun getDistrictAndCityFromCode(revCode: String): Pair<String, String>? {
+        return locationSet[revCode];
+    }
+}
 
 @Configuration
 class BeanConfig {
@@ -81,6 +96,8 @@ class BeanConfig {
 
                 // Population
                 val locationList = populationService.getLocations()
+                LocationProperty.setDistrictFromLocations((locationList))
+
                 val curDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 val yy = Integer.parseInt(curDate.split("-")[0])
                 val mm = Integer.parseInt(curDate.split("-")[1])

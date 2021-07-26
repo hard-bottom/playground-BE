@@ -1,4 +1,5 @@
 package com.hardbottom.playground.population
+import com.hardbottom.playground.config.LocationProperty
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -10,17 +11,24 @@ class PopulationService {
     @Autowired
     lateinit var locationRepository: LocationRepository
 
-    // TODO(jyeon.kim) : use model mapper?
-    private fun Population.toRetInfo() = RetInfoDTO(
-        district = "",
-        day = "$day",
-        time = "$time",
-        count = count,
-        city = ""
-    )
-
     fun getPopulations(day: String, time: String): List<RetInfoDTO> {
-        return populationRepository.findAllByDayAndTime(day,time).map { it.toRetInfo() }
+        var pops = populationRepository.findAllByDayAndTime(day,time)
+        var retList = arrayListOf<RetInfoDTO>()
+        for (pop in pops) {
+            var districtAndCity = LocationProperty.getDistrictAndCityFromCode(pop.code)
+            if (districtAndCity != null) {
+                retList.add(
+                    RetInfoDTO(
+                        districtAndCity.first,
+                        pop.day,
+                        pop.time,
+                        pop.count,
+                        districtAndCity.second
+                    )
+                )
+            }
+        }
+        return retList
     }
 
     fun getPopulation(district: String, day: String, time: String): RetInfoDTO {
